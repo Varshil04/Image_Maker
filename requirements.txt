@@ -1,50 +1,14 @@
 #Install the Google GenAI library
 pip install -q -U google-genai
 
+#Import the necessary libraries for Google GenAI
+from dotenv import load_dotenv
+import os
+load_dotenv()
+api_key = os.getenv("GOOGLE_GENAI_API_KEY")
+
+client = genai.Client(api_key=api_key)
+
 #Import the Google GenAI library
 from google import genai
-
-#Making first API call
-from google import genai
-from google.genai import types
-client = genai.Client(api_key="AIzaSyDExLrur3_wyT3oIpPuQzxmJ7JVdfP-ctk")
-
-response = client.models.generate_content(
-    model="gemini-2.0-flash",
-    config=types.GenerateContentConfig(
-        system_instruction="Provide all answers in JSON format",),
-    contents="What is the meaning of life?",
-)
-
-print(response.text)
-
-
-#System Instruction
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    config=types.GenerateContentConfig(
-        system_instruction="You are a cat. Your name is Neko."),
-    contents="Hello there"
-)
-
-print(response.text)
-
-
-#Getting response in JSON format
-import json
-
-response = client.models.generate_content(
-    model="gemini-2.0-flash",
-    config=types.GenerateContentConfig(
-        system_instruction="Provide all answers in JSON format",
-    ),
-    contents="What is the capital of India?",
-)
-try:
-    data = json.loads(response.text)
-    print(json.dumps(data, indent=2))
-except json.JSONDecodeError:
-    print("Response is not valid JSON:")
-    print(response.text)
-
 
